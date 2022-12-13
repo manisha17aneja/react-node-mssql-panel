@@ -1,0 +1,80 @@
+select DB_NAME()
+
+
+CREATE TABLE users ( id INT NOT NULL PRIMARY KEY IDENTITY(1, 1), user_id varchar(255) NULL DEFAULT '',
+    group_id varchar(255) NULL DEFAULT '',
+    name varchar(255) NULL DEFAULT '', email varchar(255) NULL DEFAULT '', password varchar(255) NULL DEFAULT '', age varchar(255) NULL DEFAULT '',
+    phone varchar(50) NULL DEFAULT '', unique_identity varchar(255) NULL DEFAULT '',pickup varchar(255) DEFAULT '',dropoff varchar(255) NULL DEFAULT '',
+    minimum_time varchar(255) NULL DEFAULT '',maximum_time varchar(255) NULL DEFAULT '',total_distance varchar(255) NULL DEFAULT '',
+type varchar(255) NULL DEFAULT '4',vehicle_type varchar(255) NULL DEFAULT '',status varchar(255) NULL DEFAULT '2',
+is_deleted varchar(255) NULL DEFAULT '2',created_at datetime NULL DEFAULT CURRENT_TIMESTAMP,updated_at datetime NULL DEFAULT CURRENT_TIMESTAMP
+);
+GO
+
+CREATE TABLE groupings
+(
+    id INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    user_id varchar(255) DEFAULT '',
+    name varchar(255) NULL DEFAULT '',
+    number_of_seats varchar(255) NULL DEFAULT '',
+    maximum_minutes varchar(255) NULL DEFAULT '',
+    logical_number varchar(50) NULL DEFAULT '',
+    route varchar(255) NULL DEFAULT '',
+    vehicle_id varchar(255) DEFAULT '',
+    status varchar(255) NULL DEFAULT '2',
+    created_at datetime NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime NULL DEFAULT CURRENT_TIMESTAMP
+);
+GO
+
+
+CREATE TABLE organizations
+(
+    id INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    user_id nvarchar(255) DEFAULT '',
+    name nvarchar(255) NULL DEFAULT '',
+    created_at datetime NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime NULL DEFAULT CURRENT_TIMESTAMP
+);
+GO
+
+INSERT INTO organizations (user_id, name, created_at, updated_at) VALUES ('1', 'yes1', '2022-09-27 15:02:11', '2022-09-27 15:02:11');
+
+
+
+CREATE TABLE vehicles
+(
+    id INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
+    user_id varchar(255) DEFAULT '',
+    vehicle_number varchar(255) NULL DEFAULT '',
+    boarding_point varchar(255) NULL DEFAULT '',
+    destination_point varchar(255) NULL DEFAULT '',
+    vehicle_route varchar(50) NULL DEFAULT '',
+    driver_id varchar(255) NULL DEFAULT '',
+    status varchar(255) NULL DEFAULT '2',
+    created_at datetime NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at datetime NULL DEFAULT CURRENT_TIMESTAMP
+);
+GO
+
+
+CREATE TABLE vehicles(id INT NOT NULL PRIMARY KEY IDENTITY(1, 1), -- primary key column    user_id varchar(255) DEFAULT '',    vehicle_number varchar(255) NULL DEFAULT '',    boarding_point varchar(255) NULL DEFAULT '',    destination_point varchar(255) NULL DEFAULT '',    vehicle_route varchar(50) NULL DEFAULT '',    driver_id varchar(255) NULL DEFAULT '',    status varchar(255) NULL DEFAULT '2',    created_at datetime NULL DEFAULT CURRENT_TIMESTAMP,    updated_at datetime NULL DEFAULT CURRENT_TIMESTAMP    -- specify more columns here);
+
+
+
+
+INSERT INTO vehicles (vehicle_number, boarding_point, destination_point, vehicle_route, driver_id, created_at, updated_at) VALUES
+('KE134', 'London', 'Manchester', 'Berminghum to London', '1', '2022-09-28 15:55:09', '2022-09-28 15:55:09');
+
+INSERT INTO groupings (user_id, name, number_of_seats, maximum_minutes, logical_number, route, vehicle_id, status, created_at, updated_at) VALUES
+('','Group 1', '20', '60', '12', 'Route', 'Bus', '1', '2022-09-28 16:44:31', '2022-09-28 16:44:31'),
+('','Group 2', '30', '30', '13', 'Route', 'Bus', '1', '2022-09-28 16:44:31', '2022-09-28 16:44:31');
+
+
+DROP TABLE users
+
+INSERT INTO users (name, email, password, age, phone, unique_identity, pickup, dropoff, total_distance, minimum_time, maximum_time, type, vehicle_type, status, is_deleted, created_at, updated_at) VALUES ('Admin', 'admin@gmail.com', '$2b$10$EfB7oldfZQ7vxZAQtEnaFe3YE1TUIef25.Loc4hkq.nPGuEfjIUDW', '21', '1234567890', '123', 'London', 'Manchester', '28 KM', '06:00:00\r\n', '08:00:00\r\n', '1', 'Car', '2', 0, '2022-09-27 15:02:11', '2022-09-27 15:02:11');
+
+
+
+select users.*, groupings.name as group_name from users LEFT JOIN groupings ON groupings.id=users.group_id WHERE users.type = 4
